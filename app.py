@@ -1,8 +1,8 @@
 import os
 from pathlib import Path
 
-import streamlit as st
-from streamlit_navigation_bar import st_navbar
+import streamlit as st # type: ignore
+from streamlit_navigation_bar import st_navbar # type: ignore
 
 import pages as pg
 

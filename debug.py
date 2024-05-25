@@ -1,4 +1,4 @@
-import openpyxl
+import openpyxl # type: ignore
 
 # Open the Excel file
 try:

@@ -1,5 +1,5 @@
-import streamlit as st
-from streamlit_gsheets import GSheetsConnection
+import streamlit as st # type: ignore
+from streamlit_gsheets import GSheetsConnection # type: ignore
 
 def show_publikasi_ilmiah():
     url = "https://docs.google.com/spreadsheets/d/1DDpIEI0RtUhYujHk6FqTcG7a2bLWD1cllR_IFfpR1bE/edit?usp=sharing"
