@@ -14,7 +14,8 @@ Before running the application, ensure that you have the following dependencies 
 
 Run in Command Prompt/Terminal: 
 1. pip install pandas openpyxl
-2. pip install streamlit-navigation-bar
+2. pip install st-gsheets-connection
+3. pip install streamlit-navigation-bar
 
 ## How to run the program:
 
