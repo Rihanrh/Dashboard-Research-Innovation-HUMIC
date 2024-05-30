@@ -25,7 +25,7 @@ pengusulan_hibah_pengmas = conn.read(spreadsheet=url, usecols=list(range(13)), w
 perolehan_hibah_industri = conn.read(spreadsheet=url, usecols=list(range(13)), worksheet='1329453071')
 pengusulan_hibah_industri = conn.read(spreadsheet=url, usecols=list(range(13)), worksheet='1115369260')
 
-# Calculate sums for each category
+# Calculate count for each category
 hibah_penelitian_count = ut.count_non_nan_entries(perolehan_hibah_penelitian) + ut.count_non_nan_entries(pengusulan_hibah_penelitian)
 publikasi_ilmiah_count = ut.count_non_nan_entries(perolehan_publikasi_ilmiah) + ut.count_non_nan_entries(pengusulan_publikasi_ilmiah)
 hki_count = ut.count_non_nan_entries(perolehan_hki) + ut.count_non_nan_entries(pengusulan_hki)
