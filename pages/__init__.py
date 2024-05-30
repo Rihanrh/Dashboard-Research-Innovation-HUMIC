@@ -1,5 +1,0 @@
-from pages.hibah_penelitian import show_hibah_penelitian
-from pages.publikasi_ilmiah import show_publikasi_ilmiah
-from pages.hki import show_hki
-from pages.hibah_pengmas import show_hibah_pengmas
-from pages.hibah_industri import show_hibah_industri
