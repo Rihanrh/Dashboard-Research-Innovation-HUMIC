@@ -90,12 +90,12 @@ with col1:
             "transition": "none",
         },
         "nav-link:hover": {  # Hover style
-            "color": "#36BFFA",
+            "color": "#F97066",
             "text-decoration": "none",
         },
         "nav-link-selected": {
             "background-color": "transparent",
-            "color": "#36BFFA",  # Selected option color
+            "color": "#F97066",  # Selected option color
             "text-decoration": "none",
             "font-weight": "normal",
             "border": "none",
