@@ -122,7 +122,25 @@ category_perolehan = True
 category_pengusulan = True
 year_2024 = True
 year_2023 = True
-
+author_Indwiarti = True
+author_Putu_Harry = True
+author_Ema_Rachmawati = True
+author_Jondri = True
+author_Hilda_Fahlena = True
+author_Dandi_Yunidar = True
+author_Togar_Mulya_Raja = True
+author_Irma_Palupi = True
+author_Bambang_Pudjoatmodjo  = True
+author_Sheila_Amalia_Salma = True
+author_Eko_Darwiyanto = True
+author_Siska_Noviaristanti = True
+author_Rajiv_Dharma_Mangruwa = True 
+author_Niken_Dwi_Cahyani = True 
+author_Deny_Haryadi = True
+author_Yunita_Nugrahaini_Safrudin = True
+author_Dandi_Yunidar = True
+author_Deki_Satria = True
+author_Meta_Kallista = True
 # Create a dialog function. Every element in it will show inside the dialog.
 session_state = st.session_state.setdefault("filter", {})
 @st.experimental_dialog("Filter")
@@ -135,6 +153,27 @@ def show_filter_dialog():
     session_state["year_2024"] = st.checkbox("2024", value=session_state.get("year_2024", True))
     session_state["year_2023"] = st.checkbox("2023", value=session_state.get("year_2023", True))
 
+    st.subheader("Nama")
+    session_state["author_Indwiarti"] = st.checkbox("Indwiarti", value=session_state.get("author_Indwiarti", True))
+    session_state["author_Putu_Harry"] = st.checkbox("Putu Harry Gunawan", value=session_state.get("author_Putu_Harry", True))
+    session_state["author_Ema_Rachmawati"] = st.checkbox("Ema Rachmawati", value=session_state.get("author_Ema_Rachmawati", True))
+    session_state["author_Jonri"] = st.checkbox("Jonri", value=session_state.get("author_Jonri", True))
+    session_state["author_Hilda_Fahlena"] = st.checkbox("Hilda Fahlena", value=session_state.get("author_Hilda_Fahlena", True))
+    session_state["author_Dandi_Yunidar"] = st.checkbox("Dandi Yunidar", value=session_state.get("author_Dandi_Yunidar", True))
+    session_state["author_Togar_Mulya_Raja"] = st.checkbox("Togar Mulya Raja", value=session_state.get("author_Togar_Mulya_Raja", True))
+    session_state["author_Irma_Palupi"] = st.checkbox("Irma Palupi", value=session_state.get("author_Irma_Palupi", True))
+    session_state["author_Bambang_Pudjoatmodjo"] = st.checkbox("Bambang Pudjoatmodjo", value=session_state.get("author_Bambang_Pudjoatmodjo", True))
+    session_state["author_Sheila_Amalia_Salma"] = st.checkbox("Sheila Amalia Salma", value=session_state.get("author_Sheila_Amalia_Salma", True))
+    session_state["author_Eko_Darwiyanto"] = st.checkbox("Eko Darwiyanto", value=session_state.get("author_Eko_Darwiyanto", True))
+    session_state["author_Siska_Noviaristanti"] = st.checkbox("Siska Noviaristanti", value=session_state.get("author_Siska_Noviaristanti", True))
+    session_state["author_Siska_Noviaristanti"] = st.checkbox("Siska Noviaristanti", value=session_state.get("author_Siska_Noviaristanti", True))
+    session_state["author_Rajiv_Dharma_Mangruwa"] = st.checkbox("Rajiv Dharma Mangruwa", value=session_state.get("author_Rajiv_Dharma_Mangruwa", True))
+    session_state["author_Niken_Dwi_Cahyani"] = st.checkbox("Niken Dwi Cahyani", value=session_state.get("author_Niken_Dwi_Cahyani", True))
+    session_state["author_Deny_Haryadi"] = st.checkbox("Deny Haryadi", value=session_state.get("author_Deny_Haryadi", True))
+    session_state["author_Yunita_Nugrahaini_Safrudin"] = st.checkbox("Yunita Nugrahaini Safrudin", value=session_state.get("author_Yunita_Nugrahaini_Safrudin", True))
+    session_state["author_Dandi_Yunidar"] = st.checkbox("Dandi Yunidar", value=session_state.get("author_Dandi_Yunidar", True))
+    session_state["author_Deki_Satria"] = st.checkbox("Deki Satria", value=session_state.get("author_Deki_Satria", True))
+    session_state["author_Meta_Kallista"] = st.checkbox("Meta Kallista", value=session_state.get("author_Meta_Kallista", True))
     if st.button("Close"):
         st.rerun()
 
