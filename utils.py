@@ -103,17 +103,14 @@ def show_perolehan_publikasi_ilmiah(url, worksheet_id, year, author=""):
     df = conn.read(spreadsheet=url, usecols=list(range(10)), worksheet=worksheet_id)
 
     if author:
-        df = df[df['AUTHOR'].str.contains(author, case=False)]
+        df = df[df['NAMA LENGKAP'].str.contains(author, case=False)]
 
     for index, row in df.iterrows():
         judul_artikel = row[6] 
         author = row[7]
-        tahun_publish = row[8] 
+        tahun_publish = row[9] 
 
         if not pd.isna(judul_artikel) and not pd.isna(author) and not pd.isna(tahun_publish):
-            # Convert tahun_publish to integer to remove decimal point
-            tahun_publish = int(tahun_publish)
-
             # Check if the year matches the specified year
             if year is None or tahun_publish == year:
                 # Define the box content
@@ -147,7 +144,7 @@ def show_pengusulan_publikasi_ilmiah(url, worksheet_id, year, author=""):
     df = conn.read(spreadsheet=url, usecols=list(range(9)), worksheet=worksheet_id)
 
     if author:
-        df = df[df['AUTHOR'].str.contains(author, case=False)]
+        df = df[df['NAMA LENGKAP'].str.contains(author, case=False)]
 
     for index, row in df.iterrows():
         judul_artikel = row[6] 
@@ -155,9 +152,6 @@ def show_pengusulan_publikasi_ilmiah(url, worksheet_id, year, author=""):
         tahun_publish = row[8] 
 
         if not pd.isna(judul_artikel) and not pd.isna(author) and not pd.isna(tahun_publish):
-            # Convert tahun_publish to integer to remove decimal point
-            tahun_publish = int(tahun_publish)
-
             # Check if the year matches the specified year
             if year is None or tahun_publish == year:
                 # Define the box content

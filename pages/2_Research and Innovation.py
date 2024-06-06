@@ -242,3 +242,68 @@ elif selected_option == "Hibah Industri":
             ut.show_perolehan_hibah_industri(url, perolehan_id, year, author)
         if session_state.get("category_pengusulan", True):
             ut.show_pengusulan_hibah_industri(url, pengusulan_id, year, author)
+
+@st.cache_data
+def convert_df(df):
+    return df.to_csv(index=False).encode('utf-8')
+
+def get_filtered_data(selected_option, session_state):
+    year = None
+    author = session_state.get("author", "")
+
+    if session_state.get("year_2024", True):
+        year = 2024
+    elif session_state.get("year_2023", True):
+        year = 2023
+
+    if selected_option == "Hibah Penelitian":
+        perolehan_data = perolehan_hibah_penelitian
+        pengusulan_data = pengusulan_hibah_penelitian
+    elif selected_option == "Publikasi Ilmiah":
+        perolehan_data = perolehan_publikasi_ilmiah
+        pengusulan_data = pengusulan_publikasi_ilmiah
+    elif selected_option == "HKI":
+        perolehan_data = perolehan_hki
+        pengusulan_data = pengusulan_hki
+    elif selected_option == "Hibah Pengmas":
+        perolehan_data = perolehan_hibah_pengmas
+        pengusulan_data = pengusulan_hibah_pengmas
+    elif selected_option == "Hibah Industri":
+        perolehan_data = perolehan_hibah_industri
+        pengusulan_data = pengusulan_hibah_industri
+
+    filtered_data = pd.DataFrame()
+
+    if session_state.get("category_perolehan", True) and session_state.get("category_pengusulan", True):
+        return pd.DataFrame()  # Return an empty DataFrame if both categories are selected
+    else:
+        if session_state.get("category_perolehan", True):
+            perolehan_filtered_data = perolehan_data[
+                (perolehan_data['NAMA LENGKAP'].str.contains(author, case=False)) &
+                (perolehan_data.iloc[:, -1] == year)
+            ]
+            filtered_data = pd.concat([filtered_data, perolehan_filtered_data])
+
+        if session_state.get("category_pengusulan", True):
+            pengusulan_filtered_data = pengusulan_data[
+                (pengusulan_data['NAMA LENGKAP'].str.contains(author, case=False)) &
+                (pengusulan_data.iloc[:, -1] == year)
+            ]
+            filtered_data = pd.concat([filtered_data, pengusulan_filtered_data])
+
+    return filtered_data
+
+with col7:
+    filtered_data = get_filtered_data(selected_option, session_state)
+    if filtered_data.empty:
+        if st.button("Print"):
+            st.toast("Error! Pastikan ada data yang dipilih dan hanya memilih satu kategori agar Download berhasil.")
+    else:
+        csv = convert_df(filtered_data)
+        st.download_button(
+            label="Print",
+            data=csv,
+            file_name=f"{selected_option}_filtered_data.csv",
+            mime="text/csv",
+            key=f'{selected_option}-download'
+        )
