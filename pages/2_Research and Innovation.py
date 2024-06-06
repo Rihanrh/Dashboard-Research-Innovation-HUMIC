@@ -2,28 +2,30 @@ import streamlit as st # type: ignore
 from streamlit_option_menu import option_menu # type: ignore
 from streamlit_gsheets import GSheetsConnection # type: ignore
 import utils as ut # type: ignore
+import pandas as pd # type: ignore
 
 st.set_page_config(
     page_title="Research and Innovation",
     page_icon=":microscope:",
     layout="wide",
 )
+
 ut.sidebar_account()
 st.title("Research and Innovation")
 
 # Set the URL of the Google Sheets and the connection
 url = "https://docs.google.com/spreadsheets/d/1DDpIEI0RtUhYujHk6FqTcG7a2bLWD1cllR_IFfpR1bE/edit?usp=sharing"
 conn = st.connection("gsheets", type=GSheetsConnection)
-perolehan_hibah_penelitian = conn.read(spreadsheet=url, usecols=list(range(13)), worksheet='1554272562')
-pengusulan_hibah_penelitian = conn.read(spreadsheet=url, usecols=list(range(13)), worksheet='881437974')
+perolehan_hibah_penelitian = conn.read(spreadsheet=url, usecols=list(range(14)), worksheet='1554272562')
+pengusulan_hibah_penelitian = conn.read(spreadsheet=url, usecols=list(range(14)), worksheet='881437974')
 perolehan_publikasi_ilmiah = conn.read(spreadsheet=url, usecols=list(range(10)), worksheet='1820188121')
 pengusulan_publikasi_ilmiah = conn.read(spreadsheet=url, usecols=list(range(9)), worksheet='632236922')
-perolehan_hki = conn.read(spreadsheet=url, usecols=list(range(6)), worksheet='310623266')
-pengusulan_hki = conn.read(spreadsheet=url, usecols=list(range(5)), worksheet='1524255545')
-perolehan_hibah_pengmas = conn.read(spreadsheet=url, usecols=list(range(13)), worksheet='369813888')
-pengusulan_hibah_pengmas = conn.read(spreadsheet=url, usecols=list(range(13)), worksheet='592923655')
-perolehan_hibah_industri = conn.read(spreadsheet=url, usecols=list(range(13)), worksheet='1329453071')
-pengusulan_hibah_industri = conn.read(spreadsheet=url, usecols=list(range(13)), worksheet='1115369260')
+perolehan_hki = conn.read(spreadsheet=url, usecols=list(range(7)), worksheet='310623266')
+pengusulan_hki = conn.read(spreadsheet=url, usecols=list(range(6)), worksheet='1524255545')
+perolehan_hibah_pengmas = conn.read(spreadsheet=url, usecols=list(range(14)), worksheet='369813888')
+pengusulan_hibah_pengmas = conn.read(spreadsheet=url, usecols=list(range(14)), worksheet='592923655')
+perolehan_hibah_industri = conn.read(spreadsheet=url, usecols=list(range(14)), worksheet='1329453071')
+pengusulan_hibah_industri = conn.read(spreadsheet=url, usecols=list(range(14)), worksheet='1115369260')
 
 # Calculate count for each category
 hibah_penelitian_count = ut.count_non_nan_entries(perolehan_hibah_penelitian) + ut.count_non_nan_entries(pengusulan_hibah_penelitian)
@@ -76,7 +78,7 @@ st.write("")
 st.write("")
 
 # Create columns for the option_menu and button
-col1, col2, col3, col4, col5, col6, col7, col8 = st.columns([12, 1, 1, 1, 1, 1, 1, 2])
+col1, col2, col3, col4, col5, col6, col7, col8 = st.columns([12, 1, 1, 1, 1, 1, 2, 2])
 
 # Option menu in the first column
 with col1:
@@ -118,11 +120,13 @@ with col1:
         default_index=0,
     )
 
+# Filter variables default values
 category_perolehan = True
 category_pengusulan = True
 year_2024 = True
 year_2023 = True
-author = True
+author = ""
+
 # Create a dialog function. Every element in it will show inside the dialog.
 session_state = st.session_state.setdefault("filter", {})
 @st.experimental_dialog("Filter")
@@ -136,11 +140,10 @@ def show_filter_dialog():
     session_state["year_2023"] = st.checkbox("2023", value=session_state.get("year_2023", True))
 
     st.subheader("Nama")
-    session_state["author"] = st.text_input("Masukkan nama author")
+    session_state["author"] = st.text_input("Masukkan nama Author", on_change=lambda: st.session_state.update({"author": st.session_state["author"]}), key="author")
     if st.button("Close"):
         st.rerun()
 
-# Button in the second column
 with col8:
     if st.button("Filter"):
         show_filter_dialog()
@@ -148,52 +151,94 @@ with col8:
 if selected_option == "Hibah Penelitian":
     perolehan_id = '1554272562'
     pengusulan_id = '881437974'
+    year = None
+    author = session_state.get("author", "")
 
-    if session_state.get("category_perolehan", True):
-        ut.show_perolehan_hibah_penelitian(url, perolehan_id)
-    if session_state.get("category_pengusulan", True):
-        ut.show_pengusulan_hibah_penelitian(url, pengusulan_id)
+    if session_state.get("year_2024", True):
+        year = 2024
+        if session_state.get("category_perolehan", True):
+            ut.show_perolehan_hibah_penelitian(url, perolehan_id, year, author)
+        if session_state.get("category_pengusulan", True):
+            ut.show_pengusulan_hibah_penelitian(url, pengusulan_id, year, author)
+    elif session_state.get("year_2023", True):
+        year = 2023
+        if session_state.get("category_perolehan", True):
+            ut.show_perolehan_hibah_penelitian(url, perolehan_id, year, author)
+        if session_state.get("category_pengusulan", True):
+            ut.show_pengusulan_hibah_penelitian(url, pengusulan_id, year, author)
 
 elif selected_option == "Publikasi Ilmiah":
     perolehan_id = '1820188121'
     pengusulan_id = '632236922'
     year = None
+    author = session_state.get("author", "")
+
     if session_state.get("year_2024", True):
         year = 2024
         if session_state.get("category_perolehan", True):
-            ut.show_perolehan_publikasi_ilmiah(url, perolehan_id, year)
+            ut.show_perolehan_publikasi_ilmiah(url, perolehan_id, year, author)
         if session_state.get("category_pengusulan", True):
-            ut.show_pengusulan_publikasi_ilmiah(url, pengusulan_id, year)
+            ut.show_pengusulan_publikasi_ilmiah(url, pengusulan_id, year, author)
     elif session_state.get("year_2023", True):
         year = 2023
         if session_state.get("category_perolehan", True):
-            ut.show_perolehan_publikasi_ilmiah(url, perolehan_id, year)
+            ut.show_perolehan_publikasi_ilmiah(url, perolehan_id, year, author)
         if session_state.get("category_pengusulan", True):
-            ut.show_pengusulan_publikasi_ilmiah(url, pengusulan_id, year)
+            ut.show_pengusulan_publikasi_ilmiah(url, pengusulan_id, year, author)
 
 elif selected_option == "HKI":
     perolehan_id = '310623266'
     pengusulan_id = '1524255545'
+    year = None
+    author = session_state.get("author", "")
 
-    if session_state.get("category_perolehan", True):
-        ut.show_perolehan_hki(url, perolehan_id)
-    if session_state.get("category_pengusulan", True):
-        ut.show_pengusulan_hki(url, pengusulan_id)
+    if session_state.get("year_2024", True):
+        year = 2024
+        if session_state.get("category_perolehan", True):
+            ut.show_perolehan_hki(url, perolehan_id, year, author)
+        if session_state.get("category_pengusulan", True):
+            ut.show_pengusulan_hki(url, pengusulan_id, year, author)
+    elif session_state.get("year_2023", True):
+        year = 2023
+        if session_state.get("category_perolehan", True):
+            ut.show_perolehan_hki(url, perolehan_id, year, author)
+        if session_state.get("category_pengusulan", True):
+            ut.show_pengusulan_hki(url, pengusulan_id, year, author)
 
 elif selected_option == "Hibah Pengmas":
     perolehan_id = '369813888'
     pengusulan_id = '592923655'
+    year = None
+    author = session_state.get("author", "")
 
-    if session_state.get("category_perolehan", True):
-        ut.show_perolehan_hibah_pengmas(url, perolehan_id)
-    if session_state.get("category_pengusulan", True):
-        ut.show_pengusulan_hibah_pengmas(url, pengusulan_id)
+    if session_state.get("year_2024", True):
+        year = 2024
+        if session_state.get("category_perolehan", True):
+            ut.show_perolehan_hibah_pengmas(url, perolehan_id, year, author)
+        if session_state.get("category_pengusulan", True):
+            ut.show_pengusulan_hibah_pengmas(url, pengusulan_id, year, author)
+    elif session_state.get("year_2023", True):
+        year = 2023
+        if session_state.get("category_perolehan", True):
+            ut.show_perolehan_hibah_pengmas(url, perolehan_id, year, author)
+        if session_state.get("category_pengusulan", True):
+            ut.show_pengusulan_hibah_pengmas(url, pengusulan_id, year, author)
 
 elif selected_option == "Hibah Industri":
     perolehan_id = '1329453071'
     pengusulan_id = '1115369260'
+    year = None
+    author = session_state.get("author", "")
 
-    if session_state.get("category_perolehan", True):
-        ut.show_perolehan_hibah_industri(url, perolehan_id)
-    if session_state.get("category_pengusulan", True):
-        ut.show_pengusulan_hibah_industri(url, pengusulan_id)
+    if session_state.get("year_2024", True):
+        year = 2024
+        if session_state.get("category_perolehan", True):
+            ut.show_perolehan_hibah_industri(url, perolehan_id, year, author)
+        if session_state.get("category_pengusulan", True):
+            ut.show_pengusulan_hibah_industri(url, pengusulan_id, year, author)
+    elif session_state.get("year_2023", True):
+        year = 2023
+        if session_state.get("category_perolehan", True):
+            ut.show_perolehan_hibah_industri(url, perolehan_id, year, author)
+        if session_state.get("category_pengusulan", True):
+            ut.show_pengusulan_hibah_industri(url, pengusulan_id, year, author)
