@@ -131,11 +131,11 @@ author = ""
 session_state = st.session_state.setdefault("filter", {})
 @st.experimental_dialog("Filter")
 def show_filter_dialog():
-    st.subheader("Category")
+    st.subheader("Kategory")
     session_state["category_perolehan"] = st.checkbox("Perolehan", value=session_state.get("category_perolehan", True))
     session_state["category_pengusulan"] = st.checkbox("Pengusulan", value=session_state.get("category_pengusulan", True))
 
-    st.subheader("Year")
+    st.subheader("Tahun")
     session_state["year_2024"] = st.checkbox("2024", value=session_state.get("year_2024", True))
     session_state["year_2023"] = st.checkbox("2023", value=session_state.get("year_2023", True))
 
