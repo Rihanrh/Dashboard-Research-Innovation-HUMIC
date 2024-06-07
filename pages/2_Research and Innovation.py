@@ -131,7 +131,7 @@ author = ""
 session_state = st.session_state.setdefault("filter", {})
 @st.experimental_dialog("Filter")
 def show_filter_dialog():
-    st.subheader("Kategory")
+    st.subheader("Kategori")
     session_state["category_perolehan"] = st.checkbox("Perolehan", value=session_state.get("category_perolehan", True))
     session_state["category_pengusulan"] = st.checkbox("Pengusulan", value=session_state.get("category_pengusulan", True))
 
