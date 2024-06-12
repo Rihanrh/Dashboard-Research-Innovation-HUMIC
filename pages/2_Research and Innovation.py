@@ -296,12 +296,12 @@ def get_filtered_data(selected_option, session_state):
 with col7:
     filtered_data = get_filtered_data(selected_option, session_state)
     if filtered_data.empty:
-        if st.button("Print"):
+        if st.button("Cetak"):
             st.toast("Error! Pastikan ada data yang dipilih dan hanya memilih satu kategori agar Download berhasil.")
     else:
         csv = convert_df(filtered_data)
         st.download_button(
-            label="Print",
+            label="Cetak",
             data=csv,
             file_name=f"{selected_option}_filtered_data.csv",
             mime="text/csv",
